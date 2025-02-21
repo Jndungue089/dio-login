@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { MdEmail, MdLock } from 'react-icons/md'
+import { MdPerson, MdEmail, MdLock } from 'react-icons/md'
 import { Button } from '../../components/Button';
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
@@ -8,9 +8,9 @@ import { api } from '../../services/api';
 import { useForm } from "react-hook-form";
 
 
-import { Container, Title, Column, TitleLogin, SubtitleLogin, EsqueciText, CriarText, Row, Wrapper } from './styles';
+import { Container, Title, Column, TitleRegister, SubtitleRegister, LogarText, Row, Wrapper } from './styles';
 
-const Login = () => {
+const Register = () => {
 
     const navigate = useNavigate()
 
@@ -18,10 +18,6 @@ const Login = () => {
         reValidateMode: 'onChange',
         mode: 'onChange',
     });
-
-    const handleRegisterClick = async () => {
-        navigate("/register")
-    }
 
     const onSubmit = async (formData) => {
         try {
@@ -35,6 +31,7 @@ const Login = () => {
             alert('Usuário ou senha inválido')
         } catch (e) {
             //TODO: HOUVE UM ERRO
+            alert(`Houve um erro ${e.err}`)
         }
     };
 
@@ -44,28 +41,29 @@ const Login = () => {
         <Header />
         <Container>
             <Column>
-                <Title>A plataforma para você aprender com experts, dominar as principais tecnologias
-                    e entrar mais rápido nas empresas mais desejadas.</Title>
+                <Title>A plataforma para você aprender com experts, dominar as principais tecnologias e entrar mais rápido nas empresas mais desejadas.</Title>
             </Column>
             <Column>
                 <Wrapper>
-                    <TitleLogin>Faça seu cadastro</TitleLogin>
-                    <SubtitleLogin>Faça seu login e make the change._</SubtitleLogin>
+                    <TitleRegister>Comece agora grátis</TitleRegister>
+                    <SubtitleRegister>Crie sua conta e make the change._</SubtitleRegister>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input placeholder="E-mail" leftIcon={<MdEmail />} name="email" control={control} />
+                        <Input placeholder="Nome Completo" leftIcon={<MdPerson />} name="name" control={control} />
+                        {errors.email && <span>Nome completo é obrigatório</span>}
+                        <Input placeholder="Nome Completo" leftIcon={<MdPerson />} name="name" control={control} />
                         {errors.email && <span>E-mail é obrigatório</span>}
                         <Input type="password" placeholder="Senha" leftIcon={<MdLock />} name="senha" control={control} />
                         {errors.senha && <span>Senha é obrigatório</span>}
-                        <Button title="Entrar" variant="secondary" type="submit" />
+                        <Button title="Criar minha conta" variant="secondary" type="submit" />
                     </form>
-                    <Row>
-                        <EsqueciText>Esqueci minha senha</EsqueciText>
-                        <CriarText onClick={handleRegisterClick}>Criar Conta</CriarText>
-                    </Row>
+                    <Column>
+                        <SubtitleRegister>Ao clicar em "criar minha conta grátis", declaro que aceito as Políticas de Privacidade e os Termos de Uso da DIO.</SubtitleRegister>
+                        <SubtitleRegister>Já tenho conta. <LogarText>Fazer login</LogarText></SubtitleRegister>
+                    </Column>
                 </Wrapper>
             </Column>
         </Container>
     </>)
 }
 
-export { Login }
+export { Register }
